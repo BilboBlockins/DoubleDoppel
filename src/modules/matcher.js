@@ -9,16 +9,21 @@ const matcher = {
   baseUrl: 'https://bilboblockins.github.io/double/',
   warmUp: async () => {
     //process hidden dummy image to warm up tensors for faster processing on upload
+    const loadScreen = document.querySelector('.loadingScreen')
     const inputImgEl = document.getElementById('file-image')
     console.log('Warming face up recognition net...')
     inputImgEl.src = matcher.baseUrl + matcher.doubleData[0].image_path
-    const result = await faceapi
+    await faceapi
       .detectSingleFace(inputImgEl, 
         new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold})
       )
       .withFaceLandmarks()
       .withFaceDescriptor()
-    console.log(result)
+    console.log('ready')
+    loadScreen.classList.add('fade')
+    setTimeout(()=>{
+      loadScreen.classList.add('hidden')
+    }, 300)
   },
   findMatches: async (num) => {
     matcher.output('Finding closest matches...')

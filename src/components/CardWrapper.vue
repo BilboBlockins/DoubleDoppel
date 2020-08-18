@@ -20,7 +20,7 @@ export default {
 <style scoped>
 
 .card-wrapper {
-  height: 90vh;
+  height: 90%;
   display: flex;
   width:100%;
 	margin:0;

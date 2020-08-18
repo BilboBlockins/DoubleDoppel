@@ -1,5 +1,34 @@
 <template>
 	<div class="home">
+    <div class="loadingScreen">
+
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.687 39.688">
+          <g paint-order="markers fill stroke" transform="matrix(.94194 0 0 1 1.152 0)">
+            <rect width="42.133" height="39.688" x="-1.223" fill="#000" rx="31.849" ry="30"/>
+            <ellipse cx="19.843" cy="19.844" fill="none" rx="16.894" ry="19.581"/>
+          </g>
+          <g paint-order="markers fill stroke">
+            <path fill="#5fd38d" d="M14.58 4.4a16.317 16.317 0 000 30.89z"/>
+            <path fill="#f06" d="M25.107 4.402v30.886a16.317 16.317 0 0011.054-15.444A16.317 16.317 0 0025.107 4.402z"/>
+            <g transform="matrix(.96148 0 0 .96148 -73.901 -1.068)">
+              <circle cx="-86.575" cy="21.75" r="2.812" fill="#000" transform="scale(-1 1)"/>
+              <circle cx="-97.5" cy="21.75" r="2.812" fill="#5fd38d" transform="scale(-1 1)"/>
+              <circle cx="108.425" cy="21.75" r="2.812" fill="#000"/>
+              <circle cx="97.5" cy="21.75" r="2.812" fill="#f06"/>
+              <path fill="#5fd38d" d="M97.5 18.939a2.812 2.812 0 00-2.812 2.811 2.812 2.812 0 002.811 2.811z"/>
+            </g>
+          </g>
+        </svg>
+      </div>
+      <div>
+        <span class="title1">DOUBLE</span><span class="title2">DOPPEL</span>
+      </div>
+      
+
+    </div>
+
+
   <progress class="progress" id="file-progress" value="0">
     <span>0</span>%
   </progress>
@@ -133,21 +162,59 @@ export default {
 </script>
 <style>
 
+.loadingScreen {
+  font-size: 20px;
+  font-family: 'Play', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 100;
+  text-align:center;
+  transition: .3s linear opacity;
+}
+
+.logo {
+  text-align:center;
+  width:80px;
+  height: 80px;
+  margin-bottom: 8px;
+  -webkit-animation: 2s linear 0s infinite spin_logo;
+  animation: 2s linear 0s infinite spin_logo;
+}
+
+@-webkit-keyframes spin_logo { from { transform: rotate(0deg); } to { transform: rotate(360deg); }  }
+        @keyframes spin_logo { from { transform: rotate(0deg); } to { transform: rotate(360deg); }  }
+
+.fade {
+  opacity: 0;
+}
+
+.hidden {
+  display: none;
+}
+
 .titleTxt {
   color:#fff;
   margin-top: 20px;
   font-size: 40px;
   margin-bottom: 20px;
+  font-family: 'Play', sans-serif;
+  user-select: none;
 }
 
 .title1 {
   color: #5FD38D;
-  text-decoration: underline;
+  border-bottom: 1px solid #5FD38D;
 }
 
 .title2 {
   color: #FF0066;
-  text-decoration: underline;
+  border-bottom: 1px solid #FF0066;
 }
 
 .actionBtn {
@@ -160,7 +227,6 @@ export default {
 }
 
 .actionBtn:hover {
-  border: 1px solid orange;
   box-shadow: 0 .2rem .5rem .5rem rgba(0,0,0,.3);
 } 
 
@@ -176,9 +242,10 @@ export default {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 3px;
+  height: 6px;
   border: 0;
   overflow: hidden;
+  background-color: black;
 }
 .progress[value] {
   /* Reset the default appearance */
@@ -186,10 +253,11 @@ export default {
   appearance: none;
 }
 progress[value]::-webkit-progress-bar {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+  background-color: black;
 }
 progress[value]::-webkit-progress-value {
-  background-color: orange;
+  background: linear-gradient(0.25turn,#5FD38D,#5FD38D,#FF0066, #FF0066);
+  opacity: 90%;
 }
 
 #messages {
@@ -391,20 +459,20 @@ button .circle {
 /* menu button */
 .fab {
   position: fixed;
-  bottom: 2rem;
+  bottom: 2.5rem;
   cursor: pointer;
   left: 50%;
   margin-left: -35px;
-  z-index: 20;
+  z-index: 10;
 }
 .fab input { 
   display: none;
 }
 .fab-menu {
   position: relative;
-  z-index: 9999;
-  width: 70px;
-  height: 70px;
+  z-index: 12;
+  width: 60px;
+  height: 60px;
 }
 .fab-btn {
   position: absolute;
@@ -455,7 +523,7 @@ button .circle {
   left: 0;
   right: 0;
   display: none;
-  z-index: 9998;
+  z-index: 5;
 }
 .fab input:checked + .fab-menu .fab-btn { 
   background-color: green;

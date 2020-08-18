@@ -5,19 +5,32 @@
 		</div>
 <div class="actionRow">
     <button
-    id="clearBtn"
-    @click="nextBtnClick" 
+    @click="prevBtnClick" 
     class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
   >
-    <i class="material-icons">keyboard_arrow_left</i>
+    <span class="material-icons icon-adjust">keyboard_arrow_left</span>
   </button>
+  <div v-if='data.length' class="descText">
+    <div>
+      {{getPercent(data[matchNum].dist)}}% MATCH
+    </div>
+    <div>
+      NAME: {{data[matchNum].name}}
+    </div>
+    <div>
+      NAME: {{data[matchNum].name}}
+    </div>
+
+  </div>
     <button
     id="uploadBtn"
     @click="nextBtnClick" 
     class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
   >
-    <i class="material-icons">keyboard_arrow_right</i>
+    <span class="material-icons icon-adjust">keyboard_arrow_right</span>
   </button>
+
+  
 </div>
 	</div>
 </template>
@@ -37,13 +50,28 @@ export default {
       this.createRipple(e)
       console.log(this.matchNum)
       console.log(this.data.length)
-      if(this.matchNum < this.data.length-1) {
-        this.matchNum++
-      } else {
-        this.matchNum = 0
+      if(this.data.length) {
+        if(this.matchNum < this.data.length-1) {
+          this.matchNum++
+        } else {
+          this.matchNum = 0
+        }
+      }
+    },
+    prevBtnClick(e) {
+      this.createRipple(e)
+      console.log(this.matchNum)
+      console.log(this.data.length)
+      if(this.data.length) {
+        if(this.matchNum > 0) {
+          this.matchNum--
+        } else {
+          this.matchNum = this.data.length - 1
+        }
       }
     },
     createRipple(e) {
+      console.log('in ripple func')
       let target = e.target
       let c = target.getElementsByClassName('circle')[0]
       if(c) { target.removeChild(c) }
@@ -54,6 +82,9 @@ export default {
       circle.style.left = e.clientX - target.offsetLeft - d / 2 + 'px'
       circle.style.top = e.clientY - target.offsetTop - d / 2 + 'px'
       circle.classList.add('circle')
+    },
+    getPercent(dist) {
+      return ((1-dist) * 100).toFixed(1)
     }
   },
   watch: {
@@ -67,20 +98,27 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-img {
-  margin: 0;
-  padding: 0;
+
+.descText {
+  position: absolute;
+}
+
+.icon-adjust {
+  position: relative;
+  top: -2px;
+  font-size: 30px;
 }
 
 .actionRow {
+  margin-top: -6px;
   display: flex;
   justify-content: space-between;
   align-items:center;
+  color: #FF0066;
 }
 
-
 .controlBtn {
-  background-color: rgba(255, 0, 102, .4);
+  background-color: rgba(255, 0, 102, .6);
   border: 1px solid #FF0066;
 }
 
@@ -99,7 +137,7 @@ img {
   overflow: hidden;
   border-radius: 50%;
   border: 1px solid #FF0066;
-  background-color: rgba(255, 0, 102, .5);
+  background-color: rgba(255, 0, 102, .6);
   box-shadow: 0 1em 3rem .5rem rgba(0,0,0,.25);
 	transition: box-shadow .2s;
 }
@@ -116,11 +154,10 @@ img {
   opacity: 100%;
   z-index: 0;
   mix-blend-mode: screen;
-  margin:0;
+  border-radius: 50%;
 }
 
 .card-image:hover {
-  border: 1px solid orange;
   box-shadow: 0 1em 3rem 1rem rgba(0,0,0,.5);
   background-color: rgba(255, 0, 102, .2);
 }
@@ -136,6 +173,7 @@ img {
   bottom: 0px;
   left: 0px;
   z-index: 4;
+  border-radius: 50%;
 }
 
 .card {
