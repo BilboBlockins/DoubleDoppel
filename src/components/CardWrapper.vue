@@ -20,6 +20,7 @@ export default {
 <style scoped>
 
 .card-wrapper {
+  height: 90vh;
   display: flex;
   width:100%;
 	margin:0;
@@ -27,10 +28,20 @@ export default {
   justify-content: center;
 }
 .card-container {
+  height: 100%;
   width:100%;
-  max-width: 840px;
-  display: block;
-  padding: 10px;
+  max-width: 640px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+}
+@media (max-width: 500px) {
+  .card-container {
+    flex-direction: column;
+    justify-content: unset;
+    align-items: center;
+
+  }
 }
 
 </style>

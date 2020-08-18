@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Home></Home>
+    <Home/>
   </div>
 </template>
 
@@ -16,9 +16,18 @@ export default {
 </script>
 
 <style>
-html, body{
+html, body {
+  height: 100%;
   padding: 0;
   margin: 0;
+  background-image: url('/images/gemini.jpg');
+  background-size: contain;
+  background-position: center;
+}
+@media(max-width: 800px) {
+  html, body {
+    background-size: cover;
+  }
 }
 #app {
   font-family: 'Roboto', sans-serif;
@@ -26,5 +35,6 @@ html, body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
 </style>
