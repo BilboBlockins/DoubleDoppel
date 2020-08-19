@@ -1,27 +1,25 @@
 <template>
 	<div class="card">
+
 		<div class="card-image">
-      <a v-if='data.length' :href='data[matchNum].profile'>
+      <a v-if='data.length' :href='data[matchNum].profile' target="_blank">
         <img class="results-image"  :src='baseUrl + data[matchNum].image_path' :alt='data.name' />
       </a>
 		</div>
-<div class="actionRow">
-    <button
-    @click="prevBtnClick" 
-    class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
-  >
-    <span class="material-icons icon-adjust-left">keyboard_arrow_left</span>
-  </button>
-    <button
-    id="uploadBtn"
-    @click="nextBtnClick" 
-    class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
-  >
-    <span class="material-icons icon-adjust-right">keyboard_arrow_right</span>
-  </button>
 
-  
-</div>
+    <div class="actionRow">
+      <button 
+        @click="prevBtnClick" 
+        class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
+        <span class="material-icons icon-adjust-left">keyboard_arrow_left</span>
+      </button>
+      <button 
+        @click="nextBtnClick" 
+        class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
+        <span class="material-icons icon-adjust-right">keyboard_arrow_right</span>
+      </button>
+    </div>
+
 	</div>
 </template>
 
@@ -34,14 +32,12 @@ export default {
     data: Array
   },
   data: () => ({
-    baseUrl: 'https://bilboblockins.github.io/double/',
+    baseUrl: process.env.VUE_APP_BASE_URL,
     matchNum: 0
   }),
   methods: {
     nextBtnClick(e) {
       this.createRipple(e)
-      console.log(this.matchNum)
-      console.log(this.data.length)
       if(this.data.length) {
         if(this.matchNum < this.data.length-1) {
           this.matchNum++
@@ -53,8 +49,6 @@ export default {
     },
     prevBtnClick(e) {
       this.createRipple(e)
-      console.log(this.matchNum)
-      console.log(this.data.length)
       if(this.data.length) {
         if(this.matchNum > 0) {
           this.matchNum--
@@ -65,7 +59,6 @@ export default {
       }
     },
     createRipple(e) {
-      console.log('in ripple func')
       let target = e.target
       let c = target.getElementsByClassName('circle')[0]
       if(c) { target.removeChild(c) }
@@ -99,13 +92,12 @@ export default {
         ' actor profile ' +
         '<span class="title2"><a class="title2" target="_blank" href="' +
         this.data[this.matchNum].profile +
-        '">here</a></span>'
+        '">here.</a></span>'
       )
     }
   },
   watch: {
     data() {
-      console.log('got data change') 
       this.matchNum = 0
       if(this.data.length) { 
         this.outputCurrent()
@@ -115,44 +107,14 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.descText {
-  position: absolute;
+.card {
+  padding-right: 2px;
+  margin-left: 150px;
+  height:250px;
+  width: 250px;
+	text-decoration: none;
 }
-
-.icon-adjust-right {
-  position: relative;
-  top: -2px;
-  right: -1px;
-  font-size: 30px;
-}
-
-.icon-adjust-left {
-  position: relative;
-  top: -2px;
-  left: -1px;
-  font-size: 30px;
-}
-
-.actionRow {
-  margin-top: -6px;
-  display: flex;
-  justify-content: space-between;
-  align-items:center;
-  color: #FF0066;
-}
-
-.controlBtn {
-  background-color: rgba(255, 0, 102, .6);
-  border: 1px solid #FF0066;
-}
-
-.controlBtn:hover {
-  background-color: rgba(255, 0, 102, .2);
-}
-
 .card-image {
   height: 250px;
   width: 250px;
@@ -168,8 +130,7 @@ export default {
   box-shadow: 0 1em 3rem .5rem rgba(0,0,0,.25);
 	transition: box-shadow .2s;
 }
-
- .card-image::before {
+.card-image::before {
   content: '';
   background-image: url('/images/face_proportions.jpg');
   background-size: cover;
@@ -183,12 +144,10 @@ export default {
   mix-blend-mode: screen;
   border-radius: 50%;
 }
-
 .card-image:hover {
   box-shadow: 0 1em 3rem 1rem rgba(0,0,0,.5);
   background-color: rgba(255, 0, 102, .2);
 }
-
 .results-image {
   width: 100%;
   height: 100%;
@@ -204,17 +163,49 @@ export default {
   cursor: pointer;
 }
 
-.card {
-  margin-left: 60px;
-  height:250px;
-  width: 250px;
-	text-decoration: none;
+.actionRow {
+  margin-top: -5px;
+  margin-left: 2px;
+  margin-right: -1px;
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+  color: #FF0066;
+}
+.controlBtn {
+  background-color: rgba(255, 0, 102, .6);
+  border: 1px solid #FF0066;
+}
+.controlBtn:hover {
+  background-color: rgba(255, 0, 102, .2);
+}
+.icon-adjust-right {
+  position: relative;
+  top: -2px;
+  right: -1px;
+  font-size: 30px;
+}
+.icon-adjust-left {
+  position: relative;
+  top: -2px;
+  left: -1px;
+  font-size: 30px;
 }
 
-@media(max-width: 500px) {
+@media(max-width: 900px) {
   .card {
+    margin-left: 60px;
+  }
+}
+@media(max-width: 600px) {
+  .card {
+    padding: 0px;
     margin-left: 0px;
     margin-top: 20px;
+  }
+  .actionRow {
+    margin-left: 0px;
+    margin-right: 0px;
   }
 }
 

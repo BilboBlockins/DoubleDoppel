@@ -9,14 +9,10 @@
 
 <script>
 export default {
-  name: 'CardWrapper',
-  data: () => ({
-
-  })
+  name: 'CardWrapper'
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
 .card-wrapper {
@@ -34,8 +30,9 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  align-content: center;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .card-container {
     flex-direction: column;
     justify-content: unset;

@@ -11,12 +11,11 @@ const matcher = {
     const loadScreen = document.querySelector('.loadingScreen')
     const inputImgEl = document.getElementById('file-image')
     //preprocess hidden dummy image to warm up tensors for faster processing on upload
-    console.log('Warming face up recognition net...')
+    console.log('Warming up face recognition net...')
     inputImgEl.src = matcher.baseUrl + matcher.doubleData[0].image_path
     await faceapi
       .detectSingleFace(inputImgEl, 
-        new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold})
-      )
+        new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold}))
       .withFaceLandmarks()
       .withFaceDescriptor()
     console.log('ready')
@@ -26,15 +25,14 @@ const matcher = {
     }, 300)
   },
   findMatches: async (num) => {
-    matcher.output('Finding closest matches...')
+    matcher.output('Finding closest doubles...')
     const progressBar = document.getElementById('file-progress')
     const inputImgEl = document.getElementById('file-image')
     const results = []
     progressBar.value = 0
     const result = await faceapi
       .detectSingleFace(inputImgEl, 
-        new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold})
-      )
+        new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold}))
       .withFaceLandmarks()
       .withFaceDescriptor()
     if(result) {
@@ -45,24 +43,22 @@ const matcher = {
         let dist = faceapi.euclideanDistance(result.descriptor, matcher.doubleModelData[i])
         distArray.push(dist)
         progressBar.value = i
-        if(i%100 === 0) {await matcher.sleep(1)}
+        if(i%200 === 0) {await matcher.sleep(1)}
       }
       let minDist = distArray.slice()
       minDist = minDist.sort((a,b) => a-b).slice(0, num)
-      
+    
       for(let min of minDist) {
         let index = distArray.indexOf(min)
         let minMatch = matcher.doubleData[index]
-        console.log(minMatch)
         if(results.indexOf((el) => el.id === minMatch.id) === -1) {
           minMatch.dist = min
           results.push(minMatch)
         }
       }
-
       return results
     } else {
-      matcher.output('Sorry, couldn\'t find a face in that one.')
+      matcher.output('Sorry, couldn\'t find a face in that one. Try a different picture.')
       return results
     }
   },
@@ -94,4 +90,3 @@ const matcher = {
 }
 
 module.exports = matcher
-

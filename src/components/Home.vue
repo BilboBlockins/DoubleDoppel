@@ -1,23 +1,18 @@
 <template>
 	<div class="home">
     <loading-screen></loading-screen>
-    <div class="menuText">
-      <div class="about">
-          Inspired by th 
-          DoubleDoppel is a machine learning powered face matching tool that searches ~8000+ actors on backstage.com to
-          find actors 
-      </div>
-      <div class="help">
+    <menu-content 
+      :showAbout='showAbout'
+      :showHelp='showHelp'>
+    </menu-content>
 
-      </div>
-    </div>
     <progress class="progress" id="file-progress" value="0">
-      <span>0</span>%
     </progress>
 
     <div class="titleTxt">
       <span class="title1">DOUBLE</span><span class="title2">DOPPEL</span>
     </div>
+
     <div id="messages">
       Click/Drag an image into the
       <span class="title1 noBorder"> green </span> 
@@ -25,37 +20,66 @@
     </div>
 
     <card-wrap>
-      <input-card :matchNum='matchNum' @get-matches='showMatches'></input-card>
-      <output-card :data='matches'></output-card>>
+      <input-card 
+        :matchNum='matchNum' 
+        @get-matches='showMatches'>
+      </input-card>
+      <output-card :data='matches'>
+      </output-card>
     </card-wrap>
 
     <label class="fab">
       <input type="checkbox">
       <div class="fab-menu">
-        <div class="fab-btn">
-          <logo/>
+        <div @click='openMenu'  class="fab-btn">
+          <logo></logo>
         </div>
-        <ul class="fab-menu-list">
-          <li >
-            <button @click='clickAbout' class="nkn-button nkn-ripple">ABOUT</button></li>
+        <ul @click='openMenu'  class="fab-menu-list">
           <li>
-          <li >
-            <button @click='clickHelp' class="nkn-button nkn-ripple ">HELP</button></li>
+            <button 
+              @click='clickAbout' 
+              :class='["nkn-button", {"aboutBtnOn": showAbout}]'>
+              ABOUT
+            </button>
+          </li>
+          <li>
+          <li>
+            <button 
+              @click='clickHelp' 
+              :class='["nkn-button", {"helpBtnOn": showHelp}]'>
+              HELP
+            </button>
+          </li>
           <li class="matchControl">
-            <button :disabled='!removeOk' @click='removeMatch' class="nkn-button nkn-ripple icon-button">
-              <span class="material-icons">keyboard_arrow_left</span>
+            <button 
+              :disabled='!removeOk' 
+              @click.self='removeMatch' 
+              class="nkn-button nkn-ripple icon-button">
+              <span 
+                class="material-icons" 
+                @click.self='removeMatch'>
+                keyboard_arrow_left
+              </span>
             </button>
           <span class="matchText">
             MATCHES: {{matchNum}}
           </span>
-            <button :disabled='!addOk' @click='addMatch' class="nkn-button nkn-ripple icon-button">
-              <span class="material-icons">keyboard_arrow_right</span>
+            <button 
+              :disabled='!addOk' 
+              @click.self='addMatch' 
+              class="nkn-button nkn-ripple icon-button">
+              <span 
+                class="material-icons" 
+                @click.self='addMatch'>
+                keyboard_arrow_right
+              </span>
             </button>
           </li>
         </ul>
       </div>
-      <div class="fab-blank"></div>
+      <div @click='openMenu' class="fab-blank"></div>
     </label>
+
 	</div>
 </template>
 
@@ -64,7 +88,9 @@ import InputCard from '@/components/InputCard.vue'
 import OutputCard from '@/components/OutputCard.vue'
 import CardWrap from '@/components/CardWrapper.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import MenuContent from '@/components/MenuContent.vue'
 import Logo from '@/components/Logo.vue'
+import matcher from '../modules/matcher.js'
 
 export default {
   name: 'Home',
@@ -73,20 +99,24 @@ export default {
     OutputCard,
     CardWrap,
     LoadingScreen,
+    MenuContent,
     Logo
   },
   data: () => ({
     matches: [],
     matchNum: 3,
     addOk: true,
-    removeOk: true
+    removeOk: true,
+    menuOpen: false,
+    showAbout: false,
+    showHelp: false
   }),
   methods: {
     showMatches(matches) {
-      console.log(matches)
       this.matches = matches
     },
     addMatch() {
+      this.menuOpen = false
       if (this.matchNum < 6) {
         this.matchNum++
       }
@@ -98,6 +128,7 @@ export default {
       }
     },
     removeMatch() {
+      this.menuOpen = false
       if (this.matchNum >= 2) {
         this.matchNum--
       }
@@ -108,19 +139,39 @@ export default {
         this.addOk = true
       }
     },
+    openMenu () {
+      if (this.menuOpen) {
+        this.showAbout = false
+        this.showHelp = false
+        this.menuOpen = false
+        this.resetMsg()
+      } else {
+        this.menuOpen = true
+        matcher.output('')
+      }
+    },
     clickAbout() {
+      this.menuOpen = false
+      this.showAbout = true
+      this.showHelp = false
     },
     clickHelp() {
+      this.menuOpen = false
+      this.showAbout = false
+      this.showHelp = true
+    },
+    resetMsg() {
+      matcher.output(
+        'Click/Drag an image into the' +
+        '<span class="title1 noBorder"> green </span>' +
+        'circle to find actor doubles...'
+      )
     }
   }
 }
 </script>
+
 <style>
-#messages {
-  padding-right:24px;
-  padding-left:24px;
-  margin-bottom: 10px;
-}
 
 .loadingScreen {
   font-size: 20px;
@@ -138,7 +189,6 @@ export default {
   text-align:center;
   transition: .3s linear opacity;
 }
-
 .logo {
   text-align:center;
   width:80px;
@@ -147,67 +197,11 @@ export default {
   -webkit-animation: 2s linear 0s infinite spin_logo;
   animation: 2s linear 0s infinite spin_logo;
 }
-
 .fade {
   opacity: 0;
 }
-
 .hidden {
   display: none;
-}
-
-.titleTxt {
-  color:#fff;
-  margin-top: 16px;
-  font-size: 40px;
-  margin-bottom: 10px;
-  font-family: 'Play', sans-serif;
-  user-select: none;
-}
-
-.title1 {
-  color: #5FD38D;
-  border-bottom: 1px solid #5FD38D;
-}
-
-.title2 {
-  color: #FF0066;
-  border-bottom: 1px solid #FF0066;
-}
-
-a.title2 {
-  color: #FF0066;
-  border: none;
-  text-decoration: none;
-}
-
-a.title2:visited {
-  color: #FF0066;
-  border: none;
-  text-decoration: none;
-}
-
-.noBorder {
-  border: none;
-}
-
-.actionBtn {
-  color: rgba(255,255,255,.85);
-  position: relative;
-  top: -15px;
-  user-select: none;
-  box-shadow: 0 0 1rem .5rem rgba(0,0,0,.15);
-	transition: box-shadow .2s;
-}
-
-.actionBtn:hover {
-  box-shadow: 0 .2rem .5rem .5rem rgba(0,0,0,.3);
-} 
-
-.actionBtn:disabled {
-  color: rgba(155,155,155,.85);
-  background-color: rgba(155,155,155, .2);
-  border: 1px solid  rgba(155,155,155, 1);
 }
 
 .progress {
@@ -239,19 +233,58 @@ progress[value]::-webkit-progress-value {
   );
   opacity: 90%;
 }
+
+.titleTxt {
+  color:#fff;
+  margin-top: 16px;
+  font-size: 40px;
+  margin-bottom: 10px;
+  font-family: 'Play', sans-serif;
+  user-select: none;
+}
+.title1 {
+  color: #5FD38D;
+  border-bottom: 1px solid #5FD38D;
+}
+.title2 {
+  color: #FF0066;
+  border-bottom: 1px solid #FF0066;
+}
+a.title2 {
+  color: #FF0066;
+  border: none;
+  text-decoration: none;
+  pointer-events:all;
+}
+a.title2:visited {
+  color: #FF0066;
+}
+.noBorder {
+  border: none;
+}
 #messages {
   color: #fff;
+  padding-right:24px;
+  padding-left:24px;
+  margin-bottom: 10px;
+  min-height: 40px;
 }
-.matchControl {
+
+.actionBtn {
+  color: rgba(255,255,255,.85);
   position: relative;
-  top: -3px;
+  top: -15px;
+  user-select: none;
+  box-shadow: 0 0 1rem .5rem rgba(0,0,0,.15);
+	transition: box-shadow .2s;
 }
-.matchText {
-  font-size: 16px;
-  margin-left: 4px;
-  margin-right: 4px;
-  position: relative;
-  top: 2px;
+.actionBtn:hover {
+  box-shadow: 0 .2rem .5rem .5rem rgba(0,0,0,.3);
+} 
+.actionBtn:disabled {
+  color: rgba(155,155,155,.85);
+  background-color: rgba(155,155,155, .2);
+  border: 1px solid  rgba(155,155,155, 1);
 }
 .nkn-button {
   -webkit-tap-highlight-color: transparent;
@@ -265,7 +298,7 @@ progress[value]::-webkit-progress-value {
   position: relative;
   height: 36px;
   margin: 0;
-  min-width: 80px;
+  min-width: 100px;
   padding: 0 12px;
   display: inline-block;
   font-family: "Roboto", sans-serif;
@@ -327,13 +360,37 @@ button .circle {
   padding: 0;
   overflow: hidden;
 }
+.aboutBtnOn {
+  color: #5FD38D;
+}
+.helpBtnOn {
+  color: #FF0066;
+}
+.about, .help {
+  max-width: 500px;
+  margin-top: 60px;
+  margin-right: 30px;
+  margin-left: 30px;
+  line-height: 1.5;
+  margin-right: 20px;
+}
+.menuText {
+  position: absolute;
+  color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  z-index: 101;
+  pointer-events: none;
+  text-align: center;
+}
 
 .fab {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: 1.6rem;
   cursor: pointer;
   left: 50%;
-  margin-left: -29px;
+  margin-left: -30px;
   z-index: 10;
   user-select: none;
 }
@@ -388,7 +445,7 @@ button .circle {
   cursor: default;
 }
 .fab-blank {
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   top: 0;
   bottom: 0;
@@ -410,17 +467,16 @@ button .circle {
 
 @-webkit-keyframes ripple {
   to {
-      opacity: 0;
-      transform: scale(3);
+    opacity: 0;
+    transform: scale(3);
   }
 }
 @keyframes ripple {
   to {
-      opacity: 0;
-      transform: scale(3);
+    opacity: 0;
+    transform: scale(3);
   }
 }
-
 @-webkit-keyframes spin_logo { 
   from { transform: rotate(0deg); } 
   to { transform: rotate(360deg); }  

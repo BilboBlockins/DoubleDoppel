@@ -9,24 +9,19 @@
     </form>
 
     <div class="actionRow">
-        <button
-        id="clearBtn"
+      <button 
         @click="clearBtnClick" 
-        class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
-      >
+        class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
         <span class="material-icons">clear</span>
       </button>
-        <button
-        id="uploadBtn"
+      <button
         @click="uploadBtnClick" 
-        class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
-      >
+        class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
         <span class="material-icons">add_photo_alternate</span>
       </button>
     </div>
 
 	</div>
-
 </template>
 
 <script>
@@ -50,7 +45,12 @@ export default {
     }
   },
   methods: {
-    loaderInit () {
+    async getMatches() {
+      const matches = await matcher.findMatches(this.matchNum)
+      this.matches = matches
+      this.$emit('get-matches', matches)
+    },
+    loaderInit() {
       let fileSelect = document.getElementById('file-upload')
       let fileDrag = document.getElementById('file-drag')
       fileSelect.addEventListener('change', this.fileSelector, false)
@@ -68,14 +68,6 @@ export default {
       var files = e.target.files || e.dataTransfer.files;
       this.fileDragHover(e)
       this.parseFile(files[0])
-      matcher.output('Locating best double matches...')
-    },
-    async getMatches() {
-      console.log('current match num: ', this.matchNum)
-      const matches = await matcher.findMatches(this.matchNum)
-      console.log(matches)
-      this.matches = matches
-      this.$emit('get-matches', matches)
     },
     parseFile(file) {
       if(file) {
@@ -89,6 +81,7 @@ export default {
         document.getElementById('file-image').classList.add("hidden")
         document.getElementById("file-upload-form").reset()
         this.$emit('get-matches', [])
+        this.resetMsg()
       }
     },
     createRipple(e) {
@@ -116,6 +109,14 @@ export default {
       document.getElementById('file-image').classList.add("hidden")
       document.getElementById("file-upload-form").reset()
       this.$emit('get-matches', [])
+      this.resetMsg()
+    },
+    resetMsg() {
+      matcher.output(
+        'Click/Drag an image into the' +
+        '<span class="title1 noBorder"> green </span>' +
+        'circle to find actor doubles...'
+      )
     }
   }
 }
@@ -123,41 +124,11 @@ export default {
 
 <style scoped>
 
-.descText {
-  color:#5FD38D;
-  text-align: center;
-  margin-bottom: 5px;
-  border-bottom: 1px solid #5FD38D;
-}
-
-.actionRow {
-  display: flex;
-  justify-content: space-between;
-}
-
-.controlBtn {
-  background-color: rgba(95, 211, 141, .6);
-  border: 1px solid #5FD38D;
-}
-
-.controlBtn:hover {
-  background-color: rgba(95, 211, 141, .2);
-}
-
 .load-card {
-  /* border-radius: 50%; */
   height:250px;
   width: 250px;
 	text-decoration: none;
 }
-
-@media(max-width: 500px) {
-  .load-card {
-    margin-top:0px;
-  }
-}
-
-/* loader style */
 .uploader {
   display: block;
   clear: both;
@@ -180,7 +151,6 @@ export default {
   box-shadow: 0 1em 3rem .5rem rgba(0,0,0,.25);
 	transition: box-shadow .2s;
 }
-
 #file-drag::before {
   content: '';
   background-image: url('/images/face_proportions.jpg');
@@ -195,12 +165,10 @@ export default {
   mix-blend-mode: screen;
   border-radius: 50%;
 }
-
 #file-drag:hover {
   box-shadow: 0 1em 3rem 1rem rgba(0,0,0,.5);
   background-color: rgba(95, 211, 141, .2);
 }
-
 #file-image {
   width: 100%;
   height: 100%;
@@ -214,14 +182,20 @@ export default {
   left: 0px;
   z-index: 4;
 }
-
-.hidden {
-  display: none;
-}
-
 input[type="file"] {
   display: none;
 }
 
+.actionRow {
+  display: flex;
+  justify-content: space-between;
+}
+.controlBtn {
+  background-color: rgba(95, 211, 141, .6);
+  border: 1px solid #5FD38D;
+}
+.controlBtn:hover {
+  background-color: rgba(95, 211, 141, .2);
+}
 
 </style>

@@ -1,2 +1,6 @@
 # DoubleDoppel
-Inspired by the impressive casting in the show 'Dark', where different versions of the same character span multiple timelines, DoubleDoppel is a client side machine learning application that searches through ~8000 actors on backstage.com and uses facial recognition to quickly find a list of actors that share similar facial features with a face in an uploaded picture. An application like this could be used in casting calls to help find new stars!
+Inspired by the impressive casting in the show 'Dark', 
+where different versions of the same character span multiple timelines, 
+DoubleDoppel is a demo machine learning application that uses facial recognition to compare a face in a reference image with
+~8000+ profiles on <a href="https://www.backstage.com/" target="_blank">backstage.com</a>
+and returns a list of actors/actresses with similar features.

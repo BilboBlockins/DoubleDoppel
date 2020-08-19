@@ -3,7 +3,7 @@
       <div class="logo">
         <logo/>
       </div>
-      <div>
+      <div class="titleText">
         <span class="title1">DOUBLE</span><span class="title2">DOPPEL</span>
       </div>
     </div>
