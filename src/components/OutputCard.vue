@@ -74,9 +74,12 @@ export default {
       return ((1-dist) * 100).toFixed(1)
     },
     outputCurrent() {
+      let title = ''
       let pronoun = 'their'
-      if(this.data[this.matchNum].gender === 'F') { pronoun = 'her' }
-      if(this.data[this.matchNum].gender === 'M') { pronoun = 'his' }
+      if(this.data[this.matchNum].gender === 'F') { pronoun = 'her ' }
+      if(this.data[this.matchNum].gender === 'M') { pronoun = 'his ' }
+      if(this.data[this.matchNum].gender === 'F') { title = 'actress' }
+      if(this.data[this.matchNum].gender === 'M') { title = 'actor' }
       matcher.output(
         'Found '+
         '<a class="title2" target="_blank" href="'+
@@ -89,7 +92,9 @@ export default {
         this.getPercent(this.data[this.matchNum].dist) + 
         '% match. See '+
         pronoun +
-        ' actor profile ' +
+        ' ' +
+        title +
+        ' profile ' +
         '<span class="title2"><a class="title2" target="_blank" href="' +
         this.data[this.matchNum].profile +
         '">here.</a></span>'
@@ -169,8 +174,6 @@ export default {
   margin-right: -1px;
   display: flex;
   justify-content: space-between;
-  align-items:center;
-  color: #FF0066;
 }
 .controlBtn {
   background-color: rgba(255, 0, 102, .6);
@@ -202,6 +205,7 @@ export default {
     padding: 0px;
     margin-left: 0px;
     margin-top: 20px;
+    margin-bottom: 100px;
   }
   .actionRow {
     margin-left: 0px;

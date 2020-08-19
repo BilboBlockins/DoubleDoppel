@@ -15,8 +15,7 @@
 
     <div id="messages">
       Click/Drag an image into the
-      <span class="title1 noBorder"> green </span> 
-      circle to find actor doubles...
+      green circle to find doubles.
     </div>
 
     <card-wrap>
@@ -79,7 +78,7 @@
       </div>
       <div @click='openMenu' class="fab-blank"></div>
     </label>
-
+    <div class="attrText">Brett Hiebert, 2020</div>
 	</div>
 </template>
 
@@ -163,8 +162,7 @@ export default {
     resetMsg() {
       matcher.output(
         'Click/Drag an image into the' +
-        '<span class="title1 noBorder"> green </span>' +
-        'circle to find actor doubles...'
+        ' green circle to find doubles.'
       )
     }
   }
@@ -175,7 +173,7 @@ export default {
 
 .loadingScreen {
   font-size: 20px;
-  font-family: 'Play', sans-serif;
+  font-family: 'Comfortaa', cursive;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -183,8 +181,7 @@ export default {
   background-color: #111;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top:0;
+  position: fixed;
   z-index: 100;
   text-align:center;
   transition: .3s linear opacity;
@@ -237,9 +234,9 @@ progress[value]::-webkit-progress-value {
 .titleTxt {
   color:#fff;
   margin-top: 16px;
-  font-size: 40px;
+  font-size: 36px;
   margin-bottom: 10px;
-  font-family: 'Play', sans-serif;
+  font-family: 'Comfortaa', cursive;
   user-select: none;
 }
 .title1 {
@@ -463,6 +460,15 @@ button .circle {
 }
 .fab input:checked ~ .fab-blank {
   display: block;
+}
+.attrText {
+  font-size: 12px;
+  color: #fff;
+  position: fixed;
+  bottom: 8px;
+  right: 8px;
+  pointer-events:none;
+  opacity: 50%;
 }
 
 @-webkit-keyframes ripple {

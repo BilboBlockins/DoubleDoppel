@@ -72,9 +72,11 @@ export default {
     parseFile(file) {
       if(file) {
         const fileSrc = URL.createObjectURL(file)
-        document.getElementById('file-image').classList.remove("hidden")
         document.getElementById('file-image').src = fileSrc
-        this.getMatches()
+        setTimeout(()=>{
+          document.getElementById('file-image').classList.remove("hidden")
+          this.getMatches()
+        }, 100)
       } else {
         const progressBar = document.getElementById('file-progress')
         progressBar.value = 0
@@ -114,8 +116,7 @@ export default {
     resetMsg() {
       matcher.output(
         'Click/Drag an image into the' +
-        '<span class="title1 noBorder"> green </span>' +
-        'circle to find actor doubles...'
+        ' green circle to find doubles.'
       )
     }
   }
