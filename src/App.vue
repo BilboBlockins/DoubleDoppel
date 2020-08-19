@@ -23,6 +23,7 @@ html, body {
   background-image: url('/images/gemini.jpg');
   background-size: contain;
   background-position: center;
+  font-size: 17px;
 }
 @media(max-width: 800px) {
   html, body {

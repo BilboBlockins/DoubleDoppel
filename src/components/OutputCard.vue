@@ -1,33 +1,23 @@
 <template>
 	<div class="card">
 		<div class="card-image">
-			<img class="results-image" v-if='data.length' :src='baseUrl + data[matchNum].image_path' :alt='data.name' />
+      <a v-if='data.length' :href='data[matchNum].profile'>
+        <img class="results-image"  :src='baseUrl + data[matchNum].image_path' :alt='data.name' />
+      </a>
 		</div>
 <div class="actionRow">
     <button
     @click="prevBtnClick" 
     class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
   >
-    <span class="material-icons icon-adjust">keyboard_arrow_left</span>
+    <span class="material-icons icon-adjust-left">keyboard_arrow_left</span>
   </button>
-  <div v-if='data.length' class="descText">
-    <div>
-      {{getPercent(data[matchNum].dist)}}% MATCH
-    </div>
-    <div>
-      NAME: {{data[matchNum].name}}
-    </div>
-    <div>
-      NAME: {{data[matchNum].name}}
-    </div>
-
-  </div>
     <button
     id="uploadBtn"
     @click="nextBtnClick" 
     class="controlBtn nkn-button nkn-ripple icon-button actionBtn"
   >
-    <span class="material-icons icon-adjust">keyboard_arrow_right</span>
+    <span class="material-icons icon-adjust-right">keyboard_arrow_right</span>
   </button>
 
   
@@ -36,6 +26,8 @@
 </template>
 
 <script>
+import matcher from '../modules/matcher.js'
+
 export default {
   name: 'OutputCard',
   props: {
@@ -56,6 +48,7 @@ export default {
         } else {
           this.matchNum = 0
         }
+        this.outputCurrent()
       }
     },
     prevBtnClick(e) {
@@ -68,6 +61,7 @@ export default {
         } else {
           this.matchNum = this.data.length - 1
         }
+        this.outputCurrent()
       }
     },
     createRipple(e) {
@@ -85,12 +79,37 @@ export default {
     },
     getPercent(dist) {
       return ((1-dist) * 100).toFixed(1)
+    },
+    outputCurrent() {
+      let pronoun = 'their'
+      if(this.data[this.matchNum].gender === 'F') { pronoun = 'her' }
+      if(this.data[this.matchNum].gender === 'M') { pronoun = 'his' }
+      matcher.output(
+        'Found '+
+        '<a class="title2" target="_blank" href="'+
+        this.data[this.matchNum].profile +
+        '"><span>' + 
+        this.data[this.matchNum].name + 
+        '</span>' +
+        '</a>' +
+        ' with a ' + 
+        this.getPercent(this.data[this.matchNum].dist) + 
+        '% match. See '+
+        pronoun +
+        ' actor profile ' +
+        '<span class="title2"><a class="title2" target="_blank" href="' +
+        this.data[this.matchNum].profile +
+        '">here</a></span>'
+      )
     }
   },
   watch: {
     data() {
       console.log('got data change') 
       this.matchNum = 0
+      if(this.data.length) { 
+        this.outputCurrent()
+      }
     }
   }
 }
@@ -103,9 +122,17 @@ export default {
   position: absolute;
 }
 
-.icon-adjust {
+.icon-adjust-right {
   position: relative;
   top: -2px;
+  right: -1px;
+  font-size: 30px;
+}
+
+.icon-adjust-left {
+  position: relative;
+  top: -2px;
+  left: -1px;
   font-size: 30px;
 }
 
@@ -167,13 +194,14 @@ export default {
   height: 100%;
   position: absolute;
   object-fit: cover;
-  object-position: 50% 0%;
+  object-position: 50% 25%;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
   z-index: 4;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .card {
@@ -186,7 +214,7 @@ export default {
 @media(max-width: 500px) {
   .card {
     margin-left: 0px;
-    margin-top: 50px;
+    margin-top: 20px;
   }
 }
 

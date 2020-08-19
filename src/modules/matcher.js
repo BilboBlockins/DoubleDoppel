@@ -8,9 +8,9 @@ const matcher = {
   doubleData: [],
   baseUrl: 'https://bilboblockins.github.io/double/',
   warmUp: async () => {
-    //process hidden dummy image to warm up tensors for faster processing on upload
     const loadScreen = document.querySelector('.loadingScreen')
     const inputImgEl = document.getElementById('file-image')
+    //preprocess hidden dummy image to warm up tensors for faster processing on upload
     console.log('Warming face up recognition net...')
     inputImgEl.src = matcher.baseUrl + matcher.doubleData[0].image_path
     await faceapi

@@ -1,5 +1,6 @@
 <template>
 	<div class="load-card">
+    
     <form id="file-upload-form" class="uploader">
       <input id="file-upload" type="file" name="fileUpload" accept="image/jpg" />
       <label for="file-upload" id="file-drag">
@@ -124,7 +125,9 @@ export default {
 
 .descText {
   color:#5FD38D;
-  text-align: left;
+  text-align: center;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #5FD38D;
 }
 
 .actionRow {
@@ -150,7 +153,7 @@ export default {
 
 @media(max-width: 500px) {
   .load-card {
-    margin-top: 20px;
+    margin-top:0px;
   }
 }
 

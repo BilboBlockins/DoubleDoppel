@@ -28,12 +28,12 @@ export default {
   justify-content: center;
 }
 .card-container {
-  height: 100%;
+  height: 60vh;
   width:100%;
   max-width: 640px;
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
 }
 @media (max-width: 500px) {
   .card-container {
