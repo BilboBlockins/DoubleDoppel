@@ -28,7 +28,7 @@
     </card-wrap>
 
     <label class="fab noSelect">
-      <input type="checkbox noSelect">
+      <input type="checkbox">
       <div class="fab-menu noSelect">
         <div @click='openMenu'  class="fab-btn noSelect">
           <logo></logo>
@@ -177,7 +177,7 @@ export default {
 
 .loadingScreen {
   font-size: 20px;
-  font-family: 'Comfortaa', cursive;
+  font-family: 'Quicksand', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -257,7 +257,7 @@ progress[value]::-moz-progress-bar {
   margin-top: 16px;
   font-size: 36px;
   margin-bottom: 10px;
-  font-family: 'Comfortaa', cursive;
+  font-family: 'Quicksand', sans-serif;
   user-select: none;
 }
 .title1 {
@@ -386,7 +386,7 @@ button .circle {
 }
 .about, .help {
   max-width: 500px;
-  margin-top: 16px;
+  margin-top: 10px;
   margin-right: 10px;
   margin-left: 10px;
   line-height: 1.3;
@@ -487,7 +487,7 @@ button .circle {
   color: rgb(87, 87, 87);
   position: fixed;
   bottom: 8px;
-  right: 8px;
+  right: 10px;
   pointer-events:none;
 }
 
