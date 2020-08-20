@@ -27,13 +27,13 @@
       </output-card>
     </card-wrap>
 
-    <label class="fab">
-      <input type="checkbox">
-      <div class="fab-menu">
-        <div @click='openMenu'  class="fab-btn">
+    <label class="fab noSelect">
+      <input type="checkbox noSelect">
+      <div class="fab-menu noSelect">
+        <div @click='openMenu'  class="fab-btn noSelect">
           <logo></logo>
         </div>
-        <ul @click='openMenu'  class="fab-menu-list">
+        <ul @click='openMenu'  class="fab-menu-list noSelect">
           <li>
             <button 
               @click='clickAbout' 
@@ -205,6 +205,16 @@ export default {
   display: none;
 }
 
+.noSelect {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 progress[value] {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -353,11 +363,11 @@ a.title2:visited {
   vertical-align: middle;
 }
 button .circle {
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.7);
-    position: absolute;
-    transform: scale(0);
-    animation: ripple linear 0.4s;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: absolute;
+  transform: scale(0);
+  animation: ripple linear 0.4s;
 }
 .icon-button {
   border-radius: 50%;
@@ -376,10 +386,10 @@ button .circle {
 }
 .about, .help {
   max-width: 500px;
-  margin-top: 60px;
-  margin-right: 30px;
-  margin-left: 30px;
-  line-height: 1.5;
+  margin-top: 16px;
+  margin-right: 10px;
+  margin-left: 10px;
+  line-height: 1.3;
   margin-right: 20px;
 }
 .menuText {
@@ -467,19 +477,18 @@ button .circle {
 }
 .fab input:checked + .fab-menu ul {
   transition: 0.4s;
-  transform: translateY(-115%) scale(1);
+  transform: translateY(-110%) scale(1);
 }
 .fab input:checked ~ .fab-blank {
   display: block;
 }
 .attrText {
   font-size: 12px;
-  color: #fff;
+  color: rgb(87, 87, 87);
   position: fixed;
   bottom: 8px;
   right: 8px;
   pointer-events:none;
-  opacity: 50%;
 }
 
 @-webkit-keyframes ripple {

@@ -1,10 +1,10 @@
 <template>
 	<div class="load-card">
     
-    <form id="file-upload-form" class="uploader">
-      <input id="file-upload" type="file" name="fileUpload" accept="image/jpg" />
-      <label for="file-upload" id="file-drag">
-        <img id="file-image" src="#" alt="Preview" class="hidden" crossorigin="">
+    <form id="file-upload-form" class="uploader noSelect">
+      <input class="noSelect" id="file-upload" type="file" name="fileUpload" accept="image/jpg" />
+      <label class="noSelect" for="file-upload" id="file-drag">
+        <img id="file-image" src="#" alt="Preview" class="hidden noSelect" crossorigin="">
       </label>
     </form>
 
@@ -12,12 +12,12 @@
       <button 
         @click="clearBtnClick" 
         class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
-        <span class="material-icons">clear</span>
+        <span class="material-icons icon-adjust noSelect">clear</span>
       </button>
       <button
         @click="uploadBtnClick" 
         class="controlBtn nkn-button nkn-ripple icon-button actionBtn">
-        <span class="material-icons">add_photo_alternate</span>
+        <span class="material-icons icon-adjust noSelect">add_photo_alternate</span>
       </button>
     </div>
 
@@ -200,6 +200,10 @@ input[type="file"] {
 }
 .controlBtn:hover {
   background-color: rgba(95, 211, 141, .2);
+}
+.icon-adjust {
+  position: relative;
+  top: -2px;
 }
 
 </style>
