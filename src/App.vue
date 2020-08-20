@@ -20,7 +20,7 @@ html, body {
   height: 100%;
   padding: 0;
   margin: 0;
-  background-image: url('/images/gemini.jpg');
+  background-image: url('https://bilboblockins.github.io/double/doppel/images/gemini.jpg');
   background-size: contain;
   background-position: center;
   font-size: 17px;

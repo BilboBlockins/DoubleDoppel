@@ -36,7 +36,7 @@ export default {
   data: () => ({
     matches: []
   }),
-  async mounted () {
+  async created() {
     await matcher.run()
     if (window.File && window.FileList && window.FileReader) {
       this.loaderInit()
@@ -72,11 +72,15 @@ export default {
     parseFile(file) {
       if(file) {
         const fileSrc = URL.createObjectURL(file)
-        document.getElementById('file-image').src = fileSrc
-        setTimeout(()=>{
-          document.getElementById('file-image').classList.remove("hidden")
-          this.getMatches()
-        }, 100)
+        let imgEl = document.getElementById('file-image')
+        imgEl.src = fileSrc
+        setTimeout(() => {
+          imgEl.classList.remove("hidden")
+          matcher.output('Finding closest doubles...')
+          setTimeout(() => {
+            this.getMatches()
+          }, 50)
+        }, 50) 
       } else {
         const progressBar = document.getElementById('file-progress')
         progressBar.value = 0
@@ -154,14 +158,13 @@ export default {
 }
 #file-drag::before {
   content: '';
-  background-image: url('/images/face_proportions.jpg');
+  background-image: url('https://bilboblockins.github.io/double/doppel/images/face_proportions.jpg');
   background-size: cover;
   position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 100%;
   z-index: 0;
   mix-blend-mode: screen;
   border-radius: 50%;

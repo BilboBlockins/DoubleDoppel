@@ -137,14 +137,13 @@ export default {
 }
 .card-image::before {
   content: '';
-  background-image: url('/images/face_proportions.jpg');
+  background-image: url('https://bilboblockins.github.io/double/doppel/images/face_proportions.jpg');
   background-size: cover;
   position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
   left: 0px;
-  opacity: 100%;
   z-index: 0;
   mix-blend-mode: screen;
   border-radius: 50%;

@@ -8,24 +8,23 @@ const matcher = {
   doubleData: [],
   baseUrl: 'https://bilboblockins.github.io/double/',
   warmUp: async () => {
-    const loadScreen = document.querySelector('.loadingScreen')
+    const loadScreen = document.getElementById('loading-screen')
+    const loadMsg = document.getElementById('load-message')
     const inputImgEl = document.getElementById('file-image')
-    //preprocess hidden dummy image to warm up tensors for faster processing on upload
-    console.log('Warming up face recognition net...')
+    loadMsg.innerText = 'Warming up net...'
     inputImgEl.src = matcher.baseUrl + matcher.doubleData[0].image_path
     await faceapi
       .detectSingleFace(inputImgEl, 
         new faceapi.TinyFaceDetectorOptions({inputSize: matcher.inputSize, scoreThreshold: matcher.scoreThreshold}))
       .withFaceLandmarks()
       .withFaceDescriptor()
-    console.log('ready')
+    loadMsg.innerText = 'Ready'
     loadScreen.classList.add('fade')
     setTimeout(()=>{
       loadScreen.classList.add('hidden')
     }, 300)
   },
   findMatches: async (num) => {
-    matcher.output('Finding closest doubles...')
     const progressBar = document.getElementById('file-progress')
     const inputImgEl = document.getElementById('file-image')
     const results = []
@@ -82,9 +81,9 @@ const matcher = {
     matcher.doubleData = doubleRes.data
     matcher.doubleModelData = doubleModelRes.data
     // load face detection, face landmark model and face recognition models
-    await faceapi.loadTinyFaceDetectorModel('/data/weights/')
-    await faceapi.loadFaceLandmarkModel('/data/weights/')
-    await faceapi.loadFaceRecognitionModel('/data/weights/')
+    await faceapi.loadTinyFaceDetectorModel('https://bilboblockins.github.io/double/doppel/data/weights/')
+    await faceapi.loadFaceLandmarkModel('https://bilboblockins.github.io/double/doppel/data/weights/')
+    await faceapi.loadFaceRecognitionModel('https://bilboblockins.github.io/double/doppel/data/weights/')
     matcher.warmUp()
   }
 }

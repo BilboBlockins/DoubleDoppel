@@ -6,7 +6,7 @@
       :showHelp='showHelp'>
     </menu-content>
 
-    <progress class="progress" id="file-progress" value="0">
+    <progress id="file-progress" value="0">
     </progress>
 
     <div class="titleTxt">
@@ -83,10 +83,10 @@
 </template>
 
 <script>
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import InputCard from '@/components/InputCard.vue'
 import OutputCard from '@/components/OutputCard.vue'
 import CardWrap from '@/components/CardWrapper.vue'
-import LoadingScreen from '@/components/LoadingScreen.vue'
 import MenuContent from '@/components/MenuContent.vue'
 import Logo from '@/components/Logo.vue'
 import matcher from '../modules/matcher.js'
@@ -94,10 +94,10 @@ import matcher from '../modules/matcher.js'
 export default {
   name: 'Home',
   components: {
+    LoadingScreen,
     InputCard,
     OutputCard,
     CardWrap,
-    LoadingScreen,
     MenuContent,
     Logo
   },
@@ -108,8 +108,9 @@ export default {
     removeOk: true,
     menuOpen: false,
     showAbout: false,
-    showHelp: false
-  }),
+    showHelp: false,
+    progressVal: 0,
+  }),  
   methods: {
     showMatches(matches) {
       this.matches = matches
@@ -159,6 +160,9 @@ export default {
       this.showAbout = false
       this.showHelp = true
     },
+    progressHandler(e) {
+      console.log('Got progress event: ', e)
+    },
     resetMsg() {
       matcher.output(
         'Click/Drag an image into the' +
@@ -201,34 +205,41 @@ export default {
   display: none;
 }
 
-.progress {
+progress[value] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   display: block;
-  clear: both;
   margin: 0;
   padding: 0;
   width: 100%;
   height: 6px;
   border: 0;
-  overflow: hidden;
   background-color: black;
-  
 }
-.progress[value] {
-  -webkit-appearance: none;
-  appearance: none;
-}
+
 progress[value]::-webkit-progress-bar {
   background-color: black;
+  height: 6px;
 }
 progress[value]::-webkit-progress-value {
-  background: linear-gradient(
-    0.25turn,
+  background-image: -webkit-linear-gradient(
+    0turn,
     #5FD38D,
     #5FD38D,
     #FF0066, 
     #FF0066
   );
-  opacity: 90%;
+}
+
+progress[value]::-moz-progress-bar {
+  background-image: -moz-linear-gradient(
+    0turn,
+    #5FD38D,
+    #5FD38D,
+    #FF0066, 
+    #FF0066
+  );
 }
 
 .titleTxt {
