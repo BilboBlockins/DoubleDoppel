@@ -191,6 +191,7 @@ input[type="file"] {
 }
 
 .actionRow {
+  margin-top:8px;
   display: flex;
   justify-content: space-between;
 }

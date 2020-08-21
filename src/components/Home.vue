@@ -254,9 +254,9 @@ progress[value]::-moz-progress-bar {
 
 .titleTxt {
   color:#fff;
-  margin-top: 16px;
+  margin-top: 12px;
   font-size: 36px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   font-family: 'Quicksand', sans-serif;
   user-select: none;
 }
@@ -284,7 +284,7 @@ a.title2:visited {
   color: #fff;
   padding-right:24px;
   padding-left:24px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   min-height: 40px;
 }
 
@@ -331,6 +331,7 @@ a.title2:visited {
   text-align: center;
   line-height: 36px;
   vertical-align: middle;
+  z-index: 50px;
 }
 .nkn-button::-moz-focus-inner {
   border: 0;

@@ -2,7 +2,7 @@
 	<div class="card">
 
 		<div class="card-image">
-      <a v-if='data.length' :href='data[matchNum].profile' target="_blank">
+      <a class="img-link" v-if='data.length' :href='data[matchNum].profile' target="_blank">
         <img class="results-image"  :src='baseUrl + data[matchNum].image_path' :alt='data.name' />
       </a>
 		</div>
@@ -128,8 +128,8 @@ export default {
   clear: both;
   text-align: center;
   user-select: none;
-  overflow: hidden;
   border-radius: 50%;
+  overflow: hidden;
   border: 1px solid #FF0066;
   background-color: rgba(255, 0, 102, .6);
   box-shadow: 0 1em 3rem .5rem rgba(0,0,0,.25);
@@ -166,9 +166,14 @@ export default {
   border-radius: 50%;
   cursor: pointer;
 }
+.img-link {
+  width:200px;
+  height: 200px;
+  border-radius: 50%;
+}
 
 .actionRow {
-  margin-top: -5px;
+  margin-top: 2px;
   margin-left: 2px;
   margin-right: -1px;
   display: flex;
@@ -203,8 +208,8 @@ export default {
   .card {
     padding: 0px;
     margin-left: 0px;
-    margin-top: 20px;
-    margin-bottom: 100px;
+    margin-top: 32px;
+    margin-bottom: 150px;
   }
   .actionRow {
     margin-left: 0px;
